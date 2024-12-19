@@ -1,0 +1,209 @@
+npx nest generate resource  == create resource
+###inside admin folder
+npx nest generate resource admin/category
+
+
+npx prisma generate
+npx prisma db push
+npx prisma migrate dev --name "init" == migrate prisma model changes to db
+npm cache clean --force
+
+restart from 1 again
+first disable in prisma
+TRUNCATE TABLE "Token" RESTART IDENTITY;
+
+####delete all data and start from 1
+DELETE FROM `vine-logistics-system`.categories;
+ALTER TABLE `vine-logistics-system`.categories AUTO_INCREMENT = 1;
+
+
+##########sample businesses data######
+INSERT INTO `vine-logistics-system`.`businesses`
+(`businessName`, `businessAddress`, `businessNumber`, `telephoneNumber`, `isActive`, `createdAt`, `updatedAt`)
+VALUES
+('Jet Logistics', '123 Main Street', 45453453, '335553532', true, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Prime Freight', '456 Elm Street', 56785678, '987654321', true, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Speedy Transport', '789 Oak Avenue', 11112222, '777777777', true, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Global Shipping', '101 Pine Road', 33334444, '555555555', true, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Swift Cargo', '202 Maple Lane', 99998888, '123456789', true, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Transit Express', '303 Birch Street', 44445555, '999999999', true, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Logistics Wave', '404 Cedar Court', 77776666, '222222222', true, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Eagle Bridge', '505 Walnut Drive', 88889999, '888888888', true, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Connect Star', '606 Pine Road', 12341234, '111111111', true, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Ace Freight', '707 Elm Street', 77778888, '444444444', true, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Pioneer Shipping', '808 Oak Avenue', 55556666, '666666666', true, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Inter Express', '909 Maple Lane', 33339999, '555555555', true, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Arrow Transport', '1010 Birch Street', 88887777, '333333333', true, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Metro Freight', '1111 Cedar Court', 22221111, '999999999', true, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Wave Logistics', '1212 Walnut Drive', 77778888, '666666666', true, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Shift Transport', '1313 Pine Road', 55553333, '444444444', true, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Link Express', '1414 Elm Street', 77776666, '222222222', true, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Star Freight', '1515 Oak Avenue', 88885555, '555555555', true, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Ocean Transport', '1616 Pine Road', 33332222, '999999999', true, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Swift Courier', '1717 Elm Street', 77776666, '222222222', true, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Express Logistics', '1818 Cedar Court', 88889999, '888888888', true, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Quick Ship', '1919 Walnut Drive', 12341234, '111111111', true, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Global Express', '2020 Pine Road', 77778888, '666666666', true, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311');
+
+
+##insert super admin
+INSERT INTO `vine-logistics-system`.`user` (`name`, `pinCode`, `email`, `password`, `businessId`, `createdBy`,`createdAt`, `updatedAt`, `role`)
+VALUES ('John Doe', 1357, 'superadmin@superadmin.com', '$argon2i$v=19$m=16,t=2,p=1$MTExMTExMTEx$CXlHOWZCev6Y7TCgV82Ucg', NULL, 'SUPERADMIN','2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311', 'SUPERADMIN');
+
+##add business from seedservice
+
+######admins###########
+INSERT INTO `vine-logistics-system`.`user` 
+(`name`, `pinCode`, `email`, `password`, `businessId`, `createdAt`, `updatedAt`, `role`, `createdBy`)
+VALUES
+('Alice Johnson', 1234, 'admin@admin.com', '$argon2i$v=19$m=16,t=2,p=1$MTIzNDU2Nzg$paXgjOoUYIRmSIqfvuK24w', 1, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311', 'ADMIN', 'SUPERADMIN'),
+('Bob Smith', 5678, 'bob.smith@example.com', '$argon2i$v=19$m=16,t=2,p=1$MTIzNDU2Nzg$paXgjOoUYIRmSIqfvuK24w', 2, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311', 'ADMIN', 'SUPERADMIN'),
+('Charlie Brown', 9012, 'charlie.brown@example.com', '$argon2i$v=19$m=16,t=2,p=1$MTIzNDU2Nzg$paXgjOoUYIRmSIqfvuK24w', 3, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311', 'ADMIN', 'SUPERADMIN'),
+('David Wilson', 3456, 'david.wilson@example.com', '$argon2i$v=19$m=16,t=2,p=1$MTIzNDU2Nzg$paXgjOoUYIRmSIqfvuK24w', 4, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311', 'ADMIN', 'SUPERADMIN'),
+('Emma Martinez', 7890, 'emma.martinez@example.com', '$argon2i$v=19$m=16,t=2,p=1$MTIzNDU2Nzg$paXgjOoUYIRmSIqfvuK24w', 5, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311', 'ADMIN', 'SUPERADMIN'),
+('Frank Taylor', 1234, 'frank.taylor@example.com', '$argon2i$v=19$m=16,t=2,p=1$MTIzNDU2Nzg$paXgjOoUYIRmSIqfvuK24w', 6, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311', 'ADMIN', 'SUPERADMIN'),
+('Grace Clark', 5678, 'grace.clark@example.com', '$argon2i$v=19$m=16,t=2,p=1$MTIzNDU2Nzg$paXgjOoUYIRmSIqfvuK24w', 7, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311', 'ADMIN', 'SUPERADMIN'),
+('Henry Adams', 9012, 'henry.adams@example.com', '$argon2i$v=19$m=16,t=2,p=1$MTIzNDU2Nzg$paXgjOoUYIRmSIqfvuK24w', 8, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311', 'ADMIN', 'SUPERADMIN'),
+('Isabel Martinez', 3456, 'isabel.martinez@example.com', '$argon2i$v=19$m=16,t=2,p=1$MTIzNDU2Nzg$paXgjOoUYIRmSIqfvuK24w', 9, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311', 'ADMIN', 'SUPERADMIN'),
+('Jack Brown', 7890, 'jack.brown@example.com', '$argon2i$v=19$m=16,t=2,p=1$MTIzNDU2Nzg$paXgjOoUYIRmSIqfvuK24w', 10, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311', 'ADMIN', 'SUPERADMIN'),
+('Katherine Wilson', 1234, 'katherine.wilson@example.com', '$argon2i$v=19$m=16,t=2,p=1$MTIzNDU2Nzg$paXgjOoUYIRmSIqfvuK24w', 11, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311', 'ADMIN', 'SUPERADMIN'),
+('Liam Taylor', 5678, 'liam.taylor@example.com', '$argon2i$v=19$m=16,t=2,p=1$MTIzNDU2Nzg$paXgjOoUYIRmSIqfvuK24w', 12, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311', 'ADMIN', 'SUPERADMIN'),
+('Mia Clark', 9012, 'mia.clark@example.com', '$argon2i$v=19$m=16,t=2,p=1$MTIzNDU2Nzg$paXgjOoUYIRmSIqfvuK24w', 13, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311', 'ADMIN', 'SUPERADMIN'),
+('Noah Adams', 3456, 'noah.adams@example.com', '$argon2i$v=19$m=16,t=2,p=1$MTIzNDU2Nzg$paXgjOoUYIRmSIqfvuK24w', 14, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311', 'ADMIN', 'SUPERADMIN'),
+('Olivia Brown', 7890, 'olivia.brown@example.com', '$argon2i$v=19$m=16,t=2,p=1$MTIzNDU2Nzg$paXgjOoUYIRmSIqfvuK24w', 15, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311', 'ADMIN', 'SUPERADMIN');
+
+
+####sample categories###
+INSERT INTO `vine-logistics-system`.`categories` (`brandName`, `country`, `city`, `businessId`, `createdAt`, `updatedAt`)
+VALUES
+('Château de l\'Étoile', 'France', 'Paris', 1, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Domaine du Soleil Levant', 'Germany', 'Berlin', 2, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Belle Vue Vineyards', 'Spain', 'Madrid', 3, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Maison de la Vallée', 'Italy', 'Rome', 4, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Château du Bonheur', 'Portugal', 'Lisbon', 5, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Domaine de la Lune', 'Netherlands', 'Amsterdam', 6, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Clos des Vignes', 'Belgium', 'Brussels', 7, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Château des Roses', 'Austria', 'Vienna', 8, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Domaine de la Brise', 'Greece', 'Athens', 9, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Château de la Rivière', 'Switzerland', 'Zurich', 10, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Domaine de la Montagne', 'Sweden', 'Stockholm', 11, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Cuvée de l\'Espoir', 'Denmark', 'Copenhagen', 12, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Domaine des Champs', 'Finland', 'Helsinki', 13, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Château du Printemps', 'Norway', 'Oslo', 14, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Clos des Oliviers', 'Ireland', 'Dublin', 15, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Domaine de la Plage', 'Czech Republic', 'Prague', 16, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Château de la Nuit', 'Poland', 'Warsaw', 17, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Maison de la Forêt', 'Hungary', 'Budapest', 18, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Domaine de la Source', 'Slovakia', 'Bratislava', 19, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Château des Cieux', 'Slovenia', 'Ljubljana', 20, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Cuvée de l\'Aube', 'Croatia', 'Zagreb', 21, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Domaine du Vent', 'Estonia', 'Tallinn', 22, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Château de la Lumière', 'Latvia', 'Riga', 23, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Maison du Secret', 'Lithuania', 'Vilnius', 1, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Clos de la Rosée', 'Luxembourg', 'Luxembourg City', 2, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Domaine de l\'Horizon', 'France', 'Lyon', 3, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Château de la Mer', 'Germany', 'Hamburg', 4, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Cuvée de l\'Automne', 'Spain', 'Barcelona', 5, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Domaine de l\'Éclat', 'Italy', 'Milan', 6, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Château des Anges', 'Portugal', 'Porto', 7, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Maison de la Terre', 'Netherlands', 'Rotterdam', 8, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Domaine de l\'Aurore', 'Belgium', 'Antwerp', 9, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Château du Crépuscule', 'Austria', 'Salzburg', 10, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Clos du Matin', 'Greece', 'Thessaloniki', 11, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Domaine de la Cascade', 'Switzerland', 'Geneva', 12, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Château de l\'Aube', 'Sweden', 'Gothenburg', 13, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Cuvée de la Soirée', 'Denmark', 'Aarhus', 14, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Domaine du Temps', 'Finland', 'Tampere', 15, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Château de la Brume', 'Norway', 'Bergen', 16, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Maison de la Clairière', 'Ireland', 'Cork', 17, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Domaine de l\'Été', 'Czech Republic', 'Brno', 18, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Château de la Sérénité', 'Poland', 'Krakow', 19, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Clos des Papillons', 'Hungary', 'Debrecen', 20, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Domaine de la Renaissance', 'Slovakia', 'Kosice', 21, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Château du Silence', 'Slovenia', 'Maribor', 22, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Cuvée de la Passion', 'Croatia', 'Split', 23, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Domaine de la Douceur', 'Estonia', 'Tartu', 1, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Château de la Vie', 'Latvia', 'Daugavpils', 2, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Maison de l\'Harmonie', 'Lithuania', 'Kaunas', 3, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Domaine du Bonheur', 'Luxembourg', 'Esch-sur-Alzette', 4, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Château de l\'Étoile', 'France', 'Paris', 5, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Domaine du Soleil Levant', 'Germany', 'Berlin', 6, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Belle Vue Vineyards', 'Spain', 'Madrid', 7, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Maison de la Vallée', 'Italy', 'Rome', 8, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Château du Bonheur', 'Portugal', 'Lisbon', 9, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Domaine de la Lune', 'Netherlands', 'Amsterdam', 10, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Clos des Vignes', 'Belgium', 'Brussels', 11, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Château des Roses', 'Austria', 'Vienna', 12, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Domaine de la Brise', 'Greece', 'Athens', 13, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Château de la Rivière', 'Switzerland', 'Zurich', 14, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Domaine de la Montagne', 'Sweden', 'Stockholm', 15, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Cuvée de l\'Espoir', 'Denmark', 'Copenhagen', 16, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Domaine des Champs', 'Finland', 'Helsinki', 17, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Château du Printemps', 'Norway', 'Oslo', 18, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Clos des Oliviers', 'Ireland', 'Dublin', 19, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Domaine de la Plage', 'Czech Republic', 'Prague', 20, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Château de la Nuit', 'Poland', 'Warsaw', 21, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Maison de la Forêt', 'Hungary', 'Budapest', 22, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Domaine de la Source', 'Slovakia', 'Bratislava', 23, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Château des Cieux', 'Slovenia', 'Ljubljana', 23, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Cuvée de l\'Aube', 'Croatia', 'Zagreb', 1, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Domaine du Vent', 'Estonia', 'Tallinn', 2, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Château de la Lumière', 'Latvia', 'Riga', 3, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311'),
+('Maison du Secret', 'Lithuania', 'Vilnius', 4, '2024-02-01 11:30:08.311', '2024-02-01 11:30:08.311');
+
+
+###########sample manufacturers############
+INSERT INTO `vine-logistics-system`.`manufacturers` (`name`, `webAddress`, `description`, `businessId`, `createdAt`, `updatedAt`)
+VALUES
+('Château Lafite Rothschild', 'www.lafite.com', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae risus nec justo malesuada convallis.', 1, '2024-02-02 05:07:28.475', '2024-02-02 05:07:28.475'),
+('Antinori', 'www.antinori.it', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae risus nec justo malesuada convallis.', 1, '2024-02-02 05:07:28.475', '2024-02-02 05:07:28.475'),
+('Torres', 'www.torres.es', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae risus nec justo malesuada convallis.', 1, '2024-02-02 05:07:28.475', '2024-02-02 05:07:28.475'),
+('Penfolds', 'www.penfolds.com', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae risus nec justo malesuada convallis.', 1, '2024-02-02 05:07:28.475', '2024-02-02 05:07:28.475'),
+('Moët & Chandon', 'www.moet.com', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae risus nec justo malesuada convallis.', 1, '2024-02-02 05:07:28.475', '2024-02-02 05:07:28.475'),
+('Marchesi di Barolo', 'www.marchesibarolo.com', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae risus nec justo malesuada convallis.', 1, '2024-02-02 05:07:28.475', '2024-02-02 05:07:28.475'),
+('Vega Sicilia', 'www.vega-sicilia.com', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae risus nec justo malesuada convallis.', 1, '2024-02-02 05:07:28.475', '2024-02-02 05:07:28.475'),
+('Jacob''s Creek', 'www.jacobscreek.com', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae risus nec justo malesuada convallis.', 1, '2024-02-02 05:07:28.475', '2024-02-02 05:07:28.475'),
+('Domaine de la Romanée-Conti', '', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae risus nec justo malesuada convallis.', 1, '2024-02-02 05:07:28.475', '2024-02-02 05:07:28.475'),
+('Gaja', 'www.gajawines.com', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae risus nec justo malesuada convallis.', 1, '2024-02-02 05:07:28.475', '2024-02-02 05:07:28.475'),
+('Bodegas Protos', 'www.bodegasprotos.com', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae risus nec justo malesuada convallis.', 1, '2024-02-02 05:07:28.475', '2024-02-02 05:07:28.475'),
+('Yalumba', 'www.yalumba.com', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae risus nec justo malesuada convallis.', 1, '2024-02-02 05:07:28.475', '2024-02-02 05:07:28.475'),
+('Château Margaux', 'www.chateau-margaux.com', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae risus nec justo malesuada convallis.', 1, '2024-02-02 05:07:28.475', '2024-02-02 05:07:28.475'),
+('Castello Banfi', 'www.castellobanfi.com', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae risus nec justo malesuada convallis.', 1, '2024-02-02 05:07:28.475', '2024-02-02 05:07:28.475'),
+('Marqués de Riscal', 'www.marquesderiscal.com', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae risus nec justo malesuada convallis.', 1, '2024-02-02 05:07:28.475', '2024-02-02 05:07:28.475'),
+('Henschke', 'www.henschke.com.au', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae risus nec justo malesuada convallis.', 1, '2024-02-02 05:07:28.475', '2024-02-02 05:07:28.475'),
+('Château Pétrus', '', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae risus nec justo malesuada convallis.', 1, '2024-02-02 05:07:28.475', '2024-02-02 05:07:28.475'),
+('Ornellaia', 'www.ornellaia.com', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae risus nec justo malesuada convallis.', 1, '2024-02-02 05:07:28.475', '2024-02-02 05:07:28.475'),
+('Bodegas Muga', 'www.bodegasmuga.com', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae risus nec justo malesuada convallis.', 1, '2024-02-02 05:07:28.475', '2024-02-02 05:07:28.475'),
+('Leeuwin Estate', 'www.leeuwinestate.com.au', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae risus nec justo malesuada convallis.', 1, '2024-02-02 05:07:28.475', '2024-02-02 05:07:28.475'),
+('Domaine de la Vougeraie', 'www.domainedelavougeraie.com', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae risus nec justo malesuada convallis.', 1, '2024-02-02 05:07:28.475', '2024-02-02 05:07:28.475'),
+('Sassicaia', '', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae risus nec justo malesuada convallis.', 1, '2024-02-02 05:07:28.475', '2024-02-02 05:07:28.475'),
+('Bodegas Torres', 'www.torres.es', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae risus nec justo malesuada convallis.', 1, '2024-02-02 05:07:28.475', '2024-02-02 05:07:28.475'),
+('Wynns Coonawarra Estate', 'www.wynns.com.au', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae risus nec justo malesuada convallis.', 1, '2024-02-02 05:07:28.475', '2024-02-02 05:07:28.475'),
+('Louis Jadot', 'www.louisjadot.com', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae risus nec justo malesuada convallis.', 1, '2024-02-02 05:07:28.475', '2024-02-02 05:07:28.475'),
+('Allegrini', 'www.allegrini.it', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae risus nec justo malesuada convallis.', 1, '2024-02-02 05:07:28.475', '2024-02-02 05:07:28.475'),
+('Bodegas Vega Sicilia', 'www.vega-sicilia.com', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae risus nec justo malesuada convallis.', 1, '2024-02-02 05:07:28.475', '2024-02-02 05:07:28.475'),
+('Penley Estate', 'www.penley.com.au', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae risus nec justo malesuada convallis.', 1, '2024-02-02 05:07:28.475', '2024-02-02 05:07:28.475'),
+('Domaine Faiveley', 'www.domainefaiveley.com', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae risus nec justo malesuada convallis.', 1, '2024-02-02 05:07:28.475', '2024-02-02 05:07:28.475'),
+('Domaine de la Grange des Pères', NULL, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae risus nec justo malesuada convallis.', 2, '2024-02-02 05:07:28.475', '2024-02-02 05:07:28.475'),
+('Masi Agricola', 'www.masi.it', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae risus nec justo malesuada convallis.', 2, '2024-02-02 05:07:28.475', '2024-02-02 05:07:28.475'),
+('Bodegas Abadia Retuerta', 'www.abadia-retuerta.com', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae risus nec justo malesuada convallis.', 2, '2024-02-02 05:07:28.475', '2024-02-02 05:07:28.475'),
+('Peter Lehmann Wines', 'www.peterlehmannwines.com', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae risus nec justo malesuada convallis.', 2, '2024-02-02 05:07:28.475', '2024-02-02 05:07:28.475'),
+('Domaine du Vieux Télégraphe', 'www.vieux-telegraphe.fr', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae risus nec justo malesuada convallis.', 2, '2024-02-02 05:07:28.475', '2024-02-02 05:07:28.475'),
+('Planeta', 'www.planeta.it', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae risus nec justo malesuada convallis.', 2, '2024-02-02 05:07:28.475', '2024-02-02 05:07:28.475'),
+('Bodegas Marqués de Cáceres', 'www.marquesdecaceres.com', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae risus nec justo malesuada convallis.', 2, '2024-02-02 05:07:28.475', '2024-02-02 05:07:28.475'),
+('Brokenwood Wines', 'www.brokenwood.com.au', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae risus nec justo malesuada convallis.', 2, '2024-02-02 05:07:28.475', '2024-02-02 05:07:28.475'),
+('Domaine Leflaive', 'www.leflaive.fr', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae risus nec justo malesuada convallis.', 2, '2024-02-02 05:07:28.475', '2024-02-02 05:07:28.475'),
+('Tignanello', NULL, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae risus nec justo malesuada convallis.', 2, '2024-02-02 05:07:28.475', '2024-02-02 05:07:28.475'),
+('Bodegas Ramón Bilbao', 'www.bodegasramonbilbao.es', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae risus nec justo malesuada convallis.', 2, '2024-02-02 05:07:28.475', '2024-02-02 05:07:28.475'),
+('Clonakilla', 'www.clonakilla.com.au', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae risus nec justo malesuada convallis.', 2, '2024-02-02 05:07:28.475', '2024-02-02 05:07:28.475'),
+('Domaine de la Janasse', 'www.lajanasse.com', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae risus nec justo malesuada convallis.', 2, '2024-02-02 05:07:28.475', '2024-02-02 05:07:28.475'),
+('San Felice', 'www.agricolasanfelice.it', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae risus nec justo malesuada convallis.', 2, '2024-02-02 05:07:28.475', '2024-02-02 05:07:28.475'),
+('Bodegas Martínez Lacuesta', 'www.martinezlacuesta.com', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae risus nec justo malesuada convallis.', 2, '2024-02-02 05:07:28.475', '2024-02-02 05:07:28.475'),
+('d''Arenberg', 'www.darenberg.com.au', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae risus nec justo malesuada convallis.', 2, '2024-02-02 05:07:28.475', '2024-02-02 05:07:28.475'),
+('Domaine William Fèvre', 'www.williamfevre.fr', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae risus nec justo malesuada convallis.', 2, '2024-02-02 05:07:28.475', '2024-02-02 05:07:28.475'),
+('Tasca d''Almerita', 'www.tascadalmerita.it', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae risus nec justo malesuada convallis.', 2, '2024-02-02 05:07:28.475', '2024-02-02 05:07:28.475');
+
+
+
+
+

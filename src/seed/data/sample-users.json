@@ -1,0 +1,209 @@
+[
+    {
+        "name": "Alice Johnson",
+        "pinCode": 1234,
+        "email": "alice.johnson@example.com",
+        "password": "string",
+        "businessId": 1,
+        "createdAt": "2024-02-01T11:30:08.311Z",
+        "updatedAt": "2024-02-01T11:30:08.311Z"
+    },
+    {
+        "name": "Bob Smith",
+        "pinCode": 5678,
+        "email": "bob.smith@example.com",
+        "password": "string",
+        "businessId": 2,
+        "createdAt": "2024-02-01T11:30:08.311Z",
+        "updatedAt": "2024-02-01T11:30:08.311Z"
+    },
+    {
+        "name": "Charlie Brown",
+        "pinCode": 9012,
+        "email": "charlie.brown@example.com",
+        "password": "string",
+        "businessId": 3,
+        "createdAt": "2024-02-01T11:30:08.311Z",
+        "updatedAt": "2024-02-01T11:30:08.311Z"
+    },
+    {
+        "name": "David Wilson",
+        "pinCode": 3456,
+        "email": "david.wilson@example.com",
+        "password": "string",
+        "businessId": 4,
+        "createdAt": "2024-02-01T11:30:08.311Z",
+        "updatedAt": "2024-02-01T11:30:08.311Z"
+    },
+    {
+        "name": "Emma Martinez",
+        "pinCode": 7890,
+        "email": "emma.martinez@example.com",
+        "password": "string",
+        "businessId": 5,
+        "createdAt": "2024-02-01T11:30:08.311Z",
+        "updatedAt": "2024-02-01T11:30:08.311Z"
+    },
+    {
+        "name": "Frank Taylor",
+        "pinCode": 1234,
+        "email": "frank.taylor@example.com",
+        "password": "string",
+        "businessId": 6,
+        "createdAt": "2024-02-01T11:30:08.311Z",
+        "updatedAt": "2024-02-01T11:30:08.311Z"
+    },
+    {
+        "name": "Grace Clark",
+        "pinCode": 5678,
+        "email": "grace.clark@example.com",
+        "password": "string",
+        "businessId": 7,
+        "createdAt": "2024-02-01T11:30:08.311Z",
+        "updatedAt": "2024-02-01T11:30:08.311Z"
+    },
+    {
+        "name": "Henry Adams",
+        "pinCode": 9012,
+        "email": "henry.adams@example.com",
+        "password": "string",
+        "businessId": 8,
+        "createdAt": "2024-02-01T11:30:08.311Z",
+        "updatedAt": "2024-02-01T11:30:08.311Z"
+    },
+    {
+        "name": "Isabel Martinez",
+        "pinCode": 3456,
+        "email": "isabel.martinez@example.com",
+        "password": "string",
+        "businessId": 9,
+        "createdAt": "2024-02-01T11:30:08.311Z",
+        "updatedAt": "2024-02-01T11:30:08.311Z"
+    },
+    {
+        "name": "Jack Brown",
+        "pinCode": 7890,
+        "email": "jack.brown@example.com",
+        "password": "string",
+        "businessId": 10,
+        "createdAt": "2024-02-01T11:30:08.311Z",
+        "updatedAt": "2024-02-01T11:30:08.311Z"
+    },
+    {
+        "name": "Katherine Wilson",
+        "pinCode": 1234,
+        "email": "katherine.wilson@example.com",
+        "password": "string",
+        "businessId": 11,
+        "createdAt": "2024-02-01T11:30:08.311Z",
+        "updatedAt": "2024-02-01T11:30:08.311Z"
+    },
+    {
+        "name": "Liam Taylor",
+        "pinCode": 5678,
+        "email": "liam.taylor@example.com",
+        "password": "string",
+        "businessId": 12,
+        "createdAt": "2024-02-01T11:30:08.311Z",
+        "updatedAt": "2024-02-01T11:30:08.311Z"
+    },
+    {
+        "name": "Mia Clark",
+        "pinCode": 9012,
+        "email": "mia.clark@example.com",
+        "password": "string",
+        "businessId": 13,
+        "createdAt": "2024-02-01T11:30:08.311Z",
+        "updatedAt": "2024-02-01T11:30:08.311Z"
+    },
+    {
+        "name": "Noah Adams",
+        "pinCode": 3456,
+        "email": "noah.adams@example.com",
+        "password": "string",
+        "businessId": 14,
+        "createdAt": "2024-02-01T11:30:08.311Z",
+        "updatedAt": "2024-02-01T11:30:08.311Z"
+    },
+    {
+        "name": "Olivia Brown",
+        "pinCode": 7890,
+        "email": "olivia.brown@example.com",
+        "password": "string",
+        "businessId": 15,
+        "createdAt": "2024-02-01T11:30:08.311Z",
+        "updatedAt": "2024-02-01T11:30:08.311Z"
+    },
+    {
+        "name": "Patrick Johnson",
+        "pinCode": 1234,
+        "email": "patrick.johnson@example.com",
+        "password": "string",
+        "businessId": 16,
+        "createdAt": "2024-02-01T11:30:08.311Z",
+        "updatedAt": "2024-02-01T11:30:08.311Z"
+    },
+    {
+        "name": "Quinn Smith",
+        "pinCode": 5678,
+        "email": "quinn.smith@example.com",
+        "password": "string",
+        "businessId": 17,
+        "createdAt": "2024-02-01T11:30:08.311Z",
+        "updatedAt": "2024-02-01T11:30:08.311Z"
+    },
+    {
+        "name": "Rachel Brown",
+        "pinCode": 9012,
+        "email": "rachel.brown@example.com",
+        "password": "string",
+        "businessId": 18,
+        "createdAt": "2024-02-01T11:30:08.311Z",
+        "updatedAt": "2024-02-01T11:30:08.311Z"
+    },
+    {
+        "name": "Samuel Wilson",
+        "pinCode": 3456,
+        "email": "samuel.wilson@example.com",
+        "password": "string",
+        "businessId": 19,
+        "createdAt": "2024-02-01T11:30:08.311Z",
+        "updatedAt": "2024-02-01T11:30:08.311Z"
+    },
+    {
+        "name": "Taylor Clark",
+        "pinCode": 7890,
+        "email": "taylor.clark@example.com",
+        "password": "string",
+        "businessId": 20,
+        "createdAt": "2024-02-01T11:30:08.311Z",
+        "updatedAt": "2024-02-01T11:30:08.311Z"
+    },
+    {
+        "name": "Uma Adams",
+        "pinCode": 1234,
+        "email": "uma.adams@example.com",
+        "password": "string",
+        "businessId": 21,
+        "createdAt": "2024-02-01T11:30:08.311Z",
+        "updatedAt": "2024-02-01T11:30:08.311Z"
+    },
+    {
+        "name": "Victor Brown",
+        "pinCode": 5678,
+        "email": "victor.brown@example.com",
+        "password": "string",
+        "businessId": 22,
+        "createdAt": "2024-02-01T11:30:08.311Z",
+        "updatedAt": "2024-02-01T11:30:08.311Z"
+    },
+    {
+        "name": "Wendy Clark",
+        "pinCode": 9012,
+        "email": "wendy.clark@example.com",
+        "password": "string",
+        "businessId": 23,
+        "createdAt": "2024-02-01T11:30:08.311Z",
+        "updatedAt": "2024-02-01T11:30:08.311Z"
+    }
+]

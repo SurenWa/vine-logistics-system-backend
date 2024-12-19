@@ -1,0 +1,316 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+// schema.prisma
+
+// model User {
+//     id        Int       @id @default(autoincrement())
+//     username  String
+//     business  Business? @relation(fields: [businessId], references: [id], onDelete: Cascade)
+//     businessId Int?
+//   }
+
+//   model Business {
+//     id      Int     @id @default(autoincrement())
+//     name    String
+//     users   User[]
+//   }
+
+// schema.prisma
+
+// model User {
+//   id         Int       @id @default(autoincrement())
+//   username   String
+//   business   Business? @relation(fields: [businessId], references: [id], onDelete: Cascade)
+//   businessId Int?
+// }
+
+// model Business {
+//   id       Int       @id @default(autoincrement())
+//   name     String
+//   users    User[]
+//   products Product[]
+// }
+
+// model Product {
+//   id         Int      @id @default(autoincrement())
+//   name       String
+//   business   Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+//   businessId Int
+// }
+
+generator client {
+    provider = "prisma-client-js"
+    binaryTargets   = ["native", "linux-musl"]
+}
+
+datasource db {
+    provider = "mysql"
+    url      = env("DATABASE_URL")
+}
+
+enum Role {
+    SUPERADMIN
+    ADMIN
+    USER
+}
+
+model User {
+    id         Int         @id @default(autoincrement())
+    name       String?
+    email      String?     @unique
+    username   String?
+    password   String
+    pinCode    Int?         @unique
+    userCode   String?      @unique
+    rfid       String?
+    role       Role
+    createdBy  Role
+    createdAt  DateTime    @default(now())
+    updatedAt  DateTime    @updatedAt
+    business   Businesses? @relation(fields: [businessId], references: [id], onDelete: Cascade)
+    cart       Carts? 
+    order      Orders[]
+    reserve    Reserves[]
+    
+    businessId Int?
+}
+
+model Businesses {
+    id              Int             @id @default(autoincrement())
+    businessName    String          @unique
+    businessAddress String?
+    businessNumber  String?
+    telephoneNumber String?
+    isActive        Boolean         @default(true)
+    createdAt       DateTime        @default(now())
+    updatedAt       DateTime        @updatedAt
+    users           User[]
+    reserves        Reserves[]
+    orders          Orders[]
+    categories      Categories[]
+    manufacturers   Manufacturers[]
+    suppliers       Suppliers[]
+    products        Products[]
+}
+
+model Categories {
+    id         Int         @id @default(autoincrement())
+    brandName  String?
+    country    String?
+    city       String?
+    business   Businesses? @relation(fields: [businessId], references: [id], onDelete: Cascade)
+    businessId Int?
+    products   Products[]
+    createdAt  DateTime    @default(now())
+    updatedAt  DateTime    @updatedAt
+}
+
+model Manufacturers {
+    id          Int         @id @default(autoincrement())
+    name        String?
+    webAddress  String?
+    description String?     @db.LongText
+    business    Businesses? @relation(fields: [businessId], references: [id], onDelete: Cascade)
+    businessId  Int?
+    products    Products[]
+    createdAt   DateTime    @default(now())
+    updatedAt   DateTime    @updatedAt
+}
+
+model Suppliers {
+    id                 Int         @id @default(autoincrement())
+    name               String?
+    address            String?
+    telephone          String?
+    email              String?
+    postalCode         String?
+    place              String?
+    country            String?
+    customerNumber     String?
+    bankAccount        String?
+    webAddress         String?
+    paymentInformation String?
+    description        String?     @db.LongText
+    business           Businesses? @relation(fields: [businessId], references: [id], onDelete: Cascade)
+    businessId         Int?
+    products           Products[]
+    createdAt          DateTime    @default(now())
+    updatedAt          DateTime    @updatedAt
+}
+
+model Products {
+    id                      Int            @id @default(autoincrement())
+    name                    String?
+    year                    Int?
+    barCode                 BigInt?        @unique
+    isActive                Boolean        @default(true)
+    setResPriceToCurrPrice               Boolean        @default(false)
+    costPriceExcludingVat   Decimal?
+    markupPercent           Decimal?
+    retailPriceExcludingVat Decimal?
+    retailPriceIncludingVat Decimal?
+    stockBalance            Int?
+    previousStockBalance    Int?
+    minimumStockBalance     Int?
+    maximumStockBalance     Int?
+    reservedQuantity        Int?
+    reservationAvailable    Int?
+    onTheWayInQuantity      Int?
+    notices                 NoticeProducts[]
+    carts                   CartProduct[]
+    orders                  OrderProduct[]
+    reserves                 ReserveProduct[]
+    orderProposals          OrderProposal[]
+    manufacturer            Manufacturers? @relation(fields: [manufacturerId], references: [id], onDelete: SetNull)
+    manufacturerId          Int?
+    category                Categories?    @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+    categoryId              Int?
+    supplier                Suppliers?     @relation(fields: [supplierId], references: [id], onDelete: SetNull)
+    supplierId              Int?
+    business                Businesses?    @relation(fields: [businessId], references: [id], onDelete: Cascade)
+    businessId              Int?
+    createdBy               String?
+    createdAt               DateTime       @default(now())
+    updatedAt               DateTime       @updatedAt
+}
+
+
+model Notices {
+    id                      Int            @id @default(autoincrement())
+    date                    String?
+    username                String?
+    message                 String?
+    pdfUrl                  String?
+    businessId              Int?
+    products                NoticeProducts[]
+    createdAt               DateTime       @default(now())
+    updatedAt               DateTime       @updatedAt
+}
+
+
+model NoticeProducts {
+    id          Int             @id @default(autoincrement())
+    product     Products?       @relation(fields: [productId], references: [id], onDelete: SetNull)
+    notice      Notices?        @relation(fields: [noticeId], references: [id], onDelete: SetNull)
+    productId   Int?
+    noticeId    Int?
+
+    @@index([productId, noticeId])
+}
+
+model Carts {
+    id          Int       @id @default(autoincrement())    
+    user        User?     @relation(fields: [userId], references: [id])
+    userId      Int?      @unique
+    products    CartProduct[]
+    createdAt   DateTime  @default(now())
+    updatedAt   DateTime  @updatedAt
+}
+
+
+model CartProduct {
+    id          Int             @id @default(autoincrement())
+    product     Products?       @relation(fields: [productId], references: [id], onDelete: SetNull)
+    cart      Carts?        @relation(fields: [cartId], references: [id], onDelete: Cascade)
+    productId   Int?
+    cartId    Int?
+
+    @@index([productId, cartId])
+}
+
+model Orders {
+    id          Int       @id @default(autoincrement())   
+    orderNumber Int       @unique
+    user        User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId      Int?       
+    business           Businesses? @relation(fields: [businessId], references: [id], onDelete: Cascade)
+    businessId         Int?
+    products    OrderProduct[]
+    totalSum    Decimal?
+    
+    createdAt   DateTime  @default(now())
+    updatedAt   DateTime  @updatedAt
+}
+
+model OrderProduct {
+    id          Int             @id @default(autoincrement())
+    product     Products?       @relation(fields: [productId], references: [id], onDelete: SetNull)
+    order      Orders?        @relation(fields: [orderId], references: [id], onDelete: SetNull)
+    userId      Int?
+    username    String?
+    productId   Int?
+    orderId    Int?
+    businessId         Int?
+    categoryId         Int?
+    quantity   Int?
+    totalQuantityBeforeOrder Int?
+    totalQuantityAfterOrder Int?
+    costPriceExcludingVat  Decimal?
+    retailPriceExcludingVat Decimal?
+    retailPriceIncludingVat Decimal?
+    createdAt   DateTime  @default(now())
+    updatedAt   DateTime  @updatedAt
+
+    @@index([productId, orderId])
+}
+
+model Reserves {
+    id          Int       @id @default(autoincrement())   
+    reserveNumber String       @unique
+    reservationDate DateTime?
+    message     String?
+    user        User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId      Int?       
+    business           Businesses? @relation(fields: [businessId], references: [id], onDelete: Cascade)
+    businessId         Int?
+    products    ReserveProduct[]
+        
+    createdAt   DateTime  @default(now())
+    updatedAt   DateTime  @updatedAt
+}
+
+model ReserveProduct {
+    id          Int             @id @default(autoincrement())
+    product     Products?       @relation(fields: [productId], references: [id], onDelete: Cascade)
+    reserve      Reserves?        @relation(fields: [reserveId], references: [id], onDelete: Cascade)
+    userId      Int?
+    username    String?
+    productId   Int?
+    reserveId    Int?
+    businessId         Int?
+    categoryId         Int?
+    quantity   Int?
+    reserveCostPriceExcludingVat  Decimal?
+    reserveRetailPriceExcludingVat Decimal?    
+    reserveRetailPriceIncludingVat Decimal?
+    currentRetailPriceIncludingVat Decimal?
+    createdAt   DateTime  @default(now())
+    updatedAt   DateTime  @updatedAt
+
+    @@index([productId, reserveId])
+}
+
+model ReserveCheckout {
+    id          Int             @id @default(autoincrement())
+    userId      Int?
+    businessId         Int?
+    reserveId    Int?
+}
+
+model OrderProposal {
+    id          Int             @id @default(autoincrement())
+    userId      Int?
+    businessId  Int?
+    supplierId  Int?
+    productId   Int?
+    product     Products?       @relation(fields: [productId], references: [id], onDelete: Cascade)
+    receivedStatus Boolean @default(false)
+    orderedQuantity Int?
+    receivedQuantity Int?
+    pendingQuantity Int ?
+    pdfUrl          String?
+    createdAt   DateTime  @default(now())
+    updatedAt   DateTime  @updatedAt
+}
+
+

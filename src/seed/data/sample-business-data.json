@@ -1,0 +1,209 @@
+[
+    {
+        "businessName": "Jet Logistics",
+        "businessAddress": "123 Main Street",
+        "businessNumber": 45453453,
+        "telephoneNumber": "335553532",
+        "isActive": true,
+        "createdAt": "2024-02-01T11:30:08.311Z",
+        "updatedAt": "2024-02-01T11:30:08.311Z"
+    },
+    {
+        "businessName": "Prime Freight",
+        "businessAddress": "456 Elm Street",
+        "businessNumber": 56785678,
+        "telephoneNumber": "987654321",
+        "isActive": true,
+        "createdAt": "2024-02-01T11:30:08.311Z",
+        "updatedAt": "2024-02-01T11:30:08.311Z"
+    },
+    {
+        "businessName": "Speedy Transport",
+        "businessAddress": "789 Oak Avenue",
+        "businessNumber": 11112222,
+        "telephoneNumber": "777777777",
+        "isActive": true,
+        "createdAt": "2024-02-01T11:30:08.311Z",
+        "updatedAt": "2024-02-01T11:30:08.311Z"
+    },
+    {
+        "businessName": "Global Shipping",
+        "businessAddress": "101 Pine Road",
+        "businessNumber": 33334444,
+        "telephoneNumber": "555555555",
+        "isActive": true,
+        "createdAt": "2024-02-01T11:30:08.311Z",
+        "updatedAt": "2024-02-01T11:30:08.311Z"
+    },
+    {
+        "businessName": "Swift Cargo",
+        "businessAddress": "202 Maple Lane",
+        "businessNumber": 99998888,
+        "telephoneNumber": "123456789",
+        "isActive": true,
+        "createdAt": "2024-02-01T11:30:08.311Z",
+        "updatedAt": "2024-02-01T11:30:08.311Z"
+    },
+    {
+        "businessName": "Transit Express",
+        "businessAddress": "303 Birch Street",
+        "businessNumber": 44445555,
+        "telephoneNumber": "999999999",
+        "isActive": true,
+        "createdAt": "2024-02-01T11:30:08.311Z",
+        "updatedAt": "2024-02-01T11:30:08.311Z"
+    },
+    {
+        "businessName": "Logistics Wave",
+        "businessAddress": "404 Cedar Court",
+        "businessNumber": 77776666,
+        "telephoneNumber": "222222222",
+        "isActive": true,
+        "createdAt": "2024-02-01T11:30:08.311Z",
+        "updatedAt": "2024-02-01T11:30:08.311Z"
+    },
+    {
+        "businessName": "Eagle Bridge",
+        "businessAddress": "505 Walnut Drive",
+        "businessNumber": 88889999,
+        "telephoneNumber": "888888888",
+        "isActive": true,
+        "createdAt": "2024-02-01T11:30:08.311Z",
+        "updatedAt": "2024-02-01T11:30:08.311Z"
+    },
+    {
+        "businessName": "Connect Star",
+        "businessAddress": "606 Pine Road",
+        "businessNumber": 12341234,
+        "telephoneNumber": "111111111",
+        "isActive": true,
+        "createdAt": "2024-02-01T11:30:08.311Z",
+        "updatedAt": "2024-02-01T11:30:08.311Z"
+    },
+    {
+        "businessName": "Ace Freight",
+        "businessAddress": "707 Elm Street",
+        "businessNumber": 77778888,
+        "telephoneNumber": "444444444",
+        "isActive": true,
+        "createdAt": "2024-02-01T11:30:08.311Z",
+        "updatedAt": "2024-02-01T11:30:08.311Z"
+    },
+    {
+        "businessName": "Pioneer Shipping",
+        "businessAddress": "808 Oak Avenue",
+        "businessNumber": 55556666,
+        "telephoneNumber": "666666666",
+        "isActive": true,
+        "createdAt": "2024-02-01T11:30:08.311Z",
+        "updatedAt": "2024-02-01T11:30:08.311Z"
+    },
+    {
+        "businessName": "Inter Express",
+        "businessAddress": "909 Maple Lane",
+        "businessNumber": 33339999,
+        "telephoneNumber": "555555555",
+        "isActive": true,
+        "createdAt": "2024-02-01T11:30:08.311Z",
+        "updatedAt": "2024-02-01T11:30:08.311Z"
+    },
+    {
+        "businessName": "Arrow Transport",
+        "businessAddress": "1010 Birch Street",
+        "businessNumber": 88887777,
+        "telephoneNumber": "333333333",
+        "isActive": true,
+        "createdAt": "2024-02-01T11:30:08.311Z",
+        "updatedAt": "2024-02-01T11:30:08.311Z"
+    },
+    {
+        "businessName": "Metro Freight",
+        "businessAddress": "1111 Cedar Court",
+        "businessNumber": 22221111,
+        "telephoneNumber": "999999999",
+        "isActive": true,
+        "createdAt": "2024-02-01T11:30:08.311Z",
+        "updatedAt": "2024-02-01T11:30:08.311Z"
+    },
+    {
+        "businessName": "Wave Logistics",
+        "businessAddress": "1212 Walnut Drive",
+        "businessNumber": 77778888,
+        "telephoneNumber": "666666666",
+        "isActive": true,
+        "createdAt": "2024-02-01T11:30:08.311Z",
+        "updatedAt": "2024-02-01T11:30:08.311Z"
+    },
+    {
+        "businessName": "Shift Transport",
+        "businessAddress": "1313 Pine Road",
+        "businessNumber": 55553333,
+        "telephoneNumber": "444444444",
+        "isActive": true,
+        "createdAt": "2024-02-01T11:30:08.311Z",
+        "updatedAt": "2024-02-01T11:30:08.311Z"
+    },
+    {
+        "businessName": "Link Express",
+        "businessAddress": "1414 Elm Street",
+        "businessNumber": 77776666,
+        "telephoneNumber": "222222222",
+        "isActive": true,
+        "createdAt": "2024-02-01T11:30:08.311Z",
+        "updatedAt": "2024-02-01T11:30:08.311Z"
+    },
+    {
+        "businessName": "Star Freight",
+        "businessAddress": "1515 Oak Avenue",
+        "businessNumber": 88885555,
+        "telephoneNumber": "555555555",
+        "isActive": true,
+        "createdAt": "2024-02-01T11:30:08.311Z",
+        "updatedAt": "2024-02-01T11:30:08.311Z"
+    },
+    {
+        "businessName": "Ocean Transport",
+        "businessAddress": "1616 Pine Road",
+        "businessNumber": 33332222,
+        "telephoneNumber": "999999999",
+        "isActive": true,
+        "createdAt": "2024-02-01T11:30:08.311Z",
+        "updatedAt": "2024-02-01T11:30:08.311Z"
+    },
+    {
+        "businessName": "Swift Courier",
+        "businessAddress": "1717 Elm Street",
+        "businessNumber": 77776666,
+        "telephoneNumber": "222222222",
+        "isActive": true,
+        "createdAt": "2024-02-01T11:30:08.311Z",
+        "updatedAt": "2024-02-01T11:30:08.311Z"
+    },
+    {
+        "businessName": "Express Logistics",
+        "businessAddress": "1818 Cedar Court",
+        "businessNumber": 88889999,
+        "telephoneNumber": "888888888",
+        "isActive": true,
+        "createdAt": "2024-02-01T11:30:08.311Z",
+        "updatedAt": "2024-02-01T11:30:08.311Z"
+    },
+    {
+        "businessName": "Quick Ship",
+        "businessAddress": "1919 Walnut Drive",
+        "businessNumber": 12341234,
+        "telephoneNumber": "111111111",
+        "isActive": true,
+        "createdAt": "2024-02-01T11:30:08.311Z",
+        "updatedAt": "2024-02-01T11:30:08.311Z"
+    },
+    {
+        "businessName": "Global Express",
+        "businessAddress": "2020 Pine Road",
+        "businessNumber": 77778888,
+        "telephoneNumber": "666666666",
+        "isActive": true,
+        "createdAt": "2024-02-01T11:30:08.311Z",
+        "updatedAt": "2024-02-01T11:30:08.311Z"
+    }
+]
