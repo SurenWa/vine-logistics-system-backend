@@ -5,18 +5,17 @@ const prisma = new PrismaClient();
 
 async function main() {
     // create two dummy articles
-    const post1 = await prisma.businesses.upsert({
-        where: { businessName: 'Test Business 1' }, // Ensure the unique identifier field is used here
-        update: {},
-        create: {
-            businessName: 'Test Business 1',
-            businessAddress: 'Test Business Address 1',
-            businessNumber: '123456',
-            telephoneNumber: '+123456789',
-            isActive: true,
-        },
-    });
-
+    // const post1 = await prisma.businesses.upsert({
+    //     where: { businessName: 'Test Business 1' }, // Ensure the unique identifier field is used here
+    //     update: {},
+    //     create: {
+    //         businessName: 'Test Business 1',
+    //         businessAddress: 'Test Business Address 1',
+    //         businessNumber: '123456',
+    //         telephoneNumber: '+123456789',
+    //         isActive: true,
+    //     },
+    // });
     // const post2 = await prisma.article.upsert({
     //     where: { title: "What's new in Prisma? (Q1/22)" },
     //     update: {},
@@ -28,7 +27,6 @@ async function main() {
     //         published: true,
     //     },
     // });
-
     // console.log({ post1, post2 });
 }
 

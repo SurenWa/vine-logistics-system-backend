@@ -1,29 +1,3 @@
-// model Products {
-//     id                      Int            @id @default(autoincrement())
-//     name                    String?
-//     year                    Int?
-//     barCode                 Int?
-//     isActive                Boolean        @default(true)
-//     costPriceExcludingVat   Int?
-//     markupPercent           Int?
-//     retailPriceExcludingVat Int?
-//     retailPriceIncludingVat Int?
-//     stockBalance            Int?
-//     minimumStockBalance     Int?
-//     maximumStockBalance     Int?
-//     manufacturer            Manufacturers? @relation(fields: [manufacturerId], references: [id], onDelete: SetNull)
-//     manufacturerId          Int?
-//     category                Categories?    @relation(fields: [categoryId], references: [id], onDelete: SetNull)
-//     categoryId              Int?
-//     supplier                Suppliers?     @relation(fields: [supplierId], references: [id], onDelete: SetNull)
-//     supplierId              Int?
-//     business                Businesses?    @relation(fields: [businessId], references: [id], onDelete: Cascade)
-//     businessId              Int?
-//     createdBy               String?
-//     createdAt               DateTime       @default(now())
-//     updatedAt               DateTime       @updatedAt
-// }
-
 import { ApiProperty } from '@nestjs/swagger';
 import {
     IsBoolean,

@@ -1,24 +1,3 @@
-// model Suppliers {
-//     id                 Int         @id @default(autoincrement())
-//     name               String?
-//     address            String?
-//     telephone          String?
-//     email              String?
-//     postalCode         Int?
-//     place              String?
-//     country            String?
-//     customerNumber     Int?
-//     bankAccount        Int?
-//     webAddress         String?
-//     paymentInformation String?
-//     description        String?
-//     business           Businesses? @relation(fields: [businessId], references: [id], onDelete: Cascade)
-//     businessId         Int?
-//     products           Products[]
-//     createdAt          DateTime    @default(now())
-//     updatedAt          DateTime    @updatedAt
-// }
-
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsOptional, IsString, MaxLength } from 'class-validator';
 
