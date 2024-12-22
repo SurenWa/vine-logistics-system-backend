@@ -28,18 +28,7 @@ jobs:
       - name: Delete old container
         run: docker rm -f nodejs-app-container
       - name: Run Docker Container
-        run: docker run -d -p 5000:5000 --name nodejs-app-container \
-            -e DATABASE_URL='${{ secrets.DATABASE_URL }}' \
-            -e JWT_SECRET='${{ secrets.JWT_SECRET }}' \
-            -e MAIL_HOST='${{ secrets.MAIL_HOST }}' \
-            -e MAIL_USER='${{ secrets.MAIL_USER }}' \
-            -e MAIL_PASSWORD='${{ secrets.MAIL_PASSWORD }}' \
-            -e MAIL_FROM='${{ secrets.MAIL_FROM }}' \
-            -e CLOUDINARY_CLOUD_NAME='${{ secrets.CLOUDINARY_CLOUD_NAME }}' \
-            -e CLOUDINARY_API_KEY='${{ secrets.CLOUDINARY_API_KEY }}' \
-            -e CLOUDINARY_API_SECRET='${{ secrets.CLOUDINARY_API_SECRET }}' \
-            surendrawagle/nodejs-app
-      
+        run: docker run -d -p 5000:5000 --name nodejs-app-container -e DATABASE_URL=${{ secrets.DATABASE_URL }} surendrawagle/nodejs-app
 # name: Deploy Node Application
 
 # on:
