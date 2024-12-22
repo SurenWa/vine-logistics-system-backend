@@ -1,13 +1,11 @@
 import {
     Injectable,
     UnauthorizedException,
-    Logger,
     HttpException,
     HttpStatus,
     NotFoundException,
 } from '@nestjs/common';
 import { CreateNoticeDto } from './dto/create-notice.dto';
-import { UpdateNoticeDto } from './dto/update-notice.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { PdfgenerateService } from '../pdfgenerate/pdfgenerate.service';
 import { Prisma } from '@prisma/client';
