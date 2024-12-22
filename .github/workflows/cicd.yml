@@ -16,7 +16,7 @@ jobs:
       - name: Login to docker hub
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
       - name: Build Docker Image
-        run: docker build -t surendrawagle/nodejs-app  .
+        run: docker build -t surendrawagle/nodejs-app -f Dockerfile .
       - name: Publish Image to docker hub
         run: docker push surendrawagle/nodejs-app:latest
   deploy:
@@ -28,7 +28,7 @@ jobs:
       - name: Delete old container
         run: docker rm -f nodejs-app-container
       - name: Run Docker Container
-        run: docker run -d -p 5000:5000 --name nodejs-app-container surendrawagle/nodejs-app
+        run: docker run -d -p 5000:5000 --name nodejs-app-container -e DATABASE_URL=${{ secrets.DATABASE_URL }} surendrawagle/nodejs-app
 # name: Deploy Node Application
 
 # on:
