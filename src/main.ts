@@ -12,7 +12,12 @@ async function bootstrap() {
 
     // await seedService.seedProducts();
 
-    app.enableCors();
+    //app.enableCors();
+    app.enableCors({
+        origin: 'http://3.12.155.227:5173', // Replace with your frontend URL
+        methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+        credentials: true, // Ensure credentials are allowed
+    });
     app.use(helmet());
     app.setGlobalPrefix('api/v1');
     app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
