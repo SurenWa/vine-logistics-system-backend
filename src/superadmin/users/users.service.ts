@@ -84,7 +84,7 @@ export class UsersService {
             isActive,
         });
         //console.log(business);
-        await this.mailService.sendUserConfirmation(createAdminUserDto);
+        //await this.mailService.sendUserConfirmation(createAdminUserDto);
 
         const hashedPassword = await argon.hash(password);
 

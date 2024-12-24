@@ -14,7 +14,7 @@ async function bootstrap() {
 
     //app.enableCors();
     app.enableCors({
-        origin: 'http://3.12.155.227:5173', // Replace with your frontend URL
+        origin: 'http://localhost:5173', // Replace with your frontend URL
         methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
         credentials: true, // Ensure credentials are allowed
     });

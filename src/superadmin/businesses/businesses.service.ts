@@ -1,4 +1,5 @@
 import {
+    ConflictException,
     HttpException,
     HttpStatus,
     Injectable,
@@ -15,6 +16,17 @@ export class BusinessesService {
     constructor(private prisma: PrismaService) {}
 
     async create(createBusinessDto: CreateBusinessDto) {
+        // Check if a business with the same name already exists
+        const existingBusiness = await this.prisma.businesses.findUnique({
+            where: {
+                businessName: createBusinessDto.businessName, // Assuming 'businessName' is the unique field
+            },
+        });
+
+        if (existingBusiness) {
+            throw new ConflictException('Bedriftsnavnet finnes allerede');
+        }
+
         const createBusiness = await this.prisma.businesses.create({
             data: createBusinessDto,
         });
