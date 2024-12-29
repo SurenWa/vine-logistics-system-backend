@@ -7,7 +7,7 @@ import { AppModule } from './app.module';
 //import { SeedService } from './seed/seed.service';
 
 async function bootstrap() {
-    const app = await NestFactory.create(AppModule);
+    const app = await NestFactory.create(AppModule, { cors: true });
     // const seedService = app.get(SeedService, { strict: false });
 
     // await seedService.seedProducts();
@@ -19,7 +19,9 @@ async function bootstrap() {
         credentials: true, // Ensure credentials are allowed
     });
     app.use(helmet());
-    app.setGlobalPrefix('api/v1');
+    app.setGlobalPrefix('api/v1', {
+        exclude: ['/'], // Exclude the root route
+    });
     app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
     app.useGlobalInterceptors(
         new ClassSerializerInterceptor(app.get(Reflector)),
@@ -54,6 +56,5 @@ async function bootstrap() {
     );
 
     await app.listen(5000, '0.0.0.0');
-    console.log('Server is running');
 }
 bootstrap();
