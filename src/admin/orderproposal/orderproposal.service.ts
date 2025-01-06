@@ -13,12 +13,108 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { PdfgenerateService } from '../pdfgenerate/pdfgenerate.service';
 import { Prisma } from '@prisma/client';
 
+function convertPrismaDecimalToNumber(decimal: string | null): number | null {
+    if (!decimal) return null;
+    return parseFloat(decimal);
+}
+
 @Injectable()
 export class OrderproposalService {
     constructor(
         private prisma: PrismaService,
         private pdfGenerate: PdfgenerateService,
     ) {}
+
+    async getAllOrderProposalProducts(
+        userId: number,
+        businessId: number,
+        search: string,
+        page: number,
+        rowsPerPage: number,
+        categoryId: number,
+        supplierId: number,
+        manufacturerId: number,
+        year: number,
+    ) {
+        try {
+            const user = await this.prisma.user.findUnique({
+                where: { id: userId },
+            });
+
+            if (user.businessId !== businessId) {
+                throw new UnauthorizedException('ACCESS DENIED');
+            }
+
+            const offset = page * rowsPerPage;
+
+            const query: Prisma.ProductsFindManyArgs = {
+                where: {
+                    businessId,
+                    categoryId,
+                    supplierId,
+                    manufacturerId,
+                    year,
+                    name: { contains: search },
+                    stockBalance: {
+                        lt: this.prisma.products.fields.maximumStockBalance, // Ensure this property exists in your schema
+                    },
+                },
+                orderBy: {
+                    name: 'asc',
+                },
+                skip: offset,
+                take: rowsPerPage,
+            };
+
+            const products = await this.prisma.products.findMany({
+                ...query,
+                include: {
+                    category: true,
+                    manufacturer: true,
+                    supplier: true,
+                },
+            });
+
+            if (!products) {
+                throw new NotFoundException('Products not found');
+            }
+
+            const serializedProducts = products.map((product) => ({
+                ...product,
+                costPriceExcludingVat: convertPrismaDecimalToNumber(
+                    product.costPriceExcludingVat.toString(),
+                ),
+
+                markupPercent: convertPrismaDecimalToNumber(
+                    product.markupPercent.toString(),
+                ),
+                retailPriceExcludingVat: convertPrismaDecimalToNumber(
+                    product.retailPriceExcludingVat.toString(),
+                ),
+                retailPriceIncludingVat: convertPrismaDecimalToNumber(
+                    product.retailPriceIncludingVat.toString(),
+                ),
+                barCode: String(product.barCode), // Convert BigInt to string
+                // Add conversions for other BigInt properties if needed
+            }));
+
+            const totalCount = await this.prisma.products.count({
+                where: query.where,
+            });
+
+            const totalPages = Math.ceil(totalCount / rowsPerPage);
+
+            return {
+                serializedProducts,
+                pagination: { page, rowsPerPage, totalPages, totalCount },
+            };
+        } catch (error) {
+            throw new HttpException(
+                'Internal Server Error',
+                HttpStatus.INTERNAL_SERVER_ERROR,
+            );
+        }
+    }
     async createOrderProposal(
         userId: number,
         businessId: number,

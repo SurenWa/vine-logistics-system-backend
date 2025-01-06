@@ -33,16 +33,22 @@ export class ProductsService {
             throw new UnauthorizedException('ACCESS DENIED');
         }
 
-        const existingProduct = await this.prisma.products.findFirst({
-            where: {
-                barCode: createProductDto.barCode,
-            },
-        });
+        // If barCode is not provided, generate a unique barCode
+        if (!createProductDto.barCode) {
+            createProductDto.barCode = await this.generateUniqueBarCode();
+        } else {
+            // If barCode is provided, check if it already exists
+            const existingProduct = await this.prisma.products.findFirst({
+                where: {
+                    barCode: createProductDto.barCode,
+                },
+            });
 
-        if (existingProduct) {
-            throw new BadRequestException(
-                'Strekkode finnes allerede. Vennligst bruk en annen strekkode.',
-            );
+            if (existingProduct) {
+                throw new BadRequestException(
+                    'Strekkode finnes allerede. Vennligst bruk en annen strekkode.',
+                );
+            }
         }
 
         const markupPercent =
@@ -157,7 +163,6 @@ export class ProductsService {
                 pagination: { page, rowsPerPage, totalPages, totalCount },
             };
         } catch (error) {
-            //console.log(error);
             throw new HttpException(
                 'Internal Server Error',
                 HttpStatus.INTERNAL_SERVER_ERROR,

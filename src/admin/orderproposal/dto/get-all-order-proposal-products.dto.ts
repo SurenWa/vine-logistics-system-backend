@@ -1,0 +1,45 @@
+// pagination.dto.ts
+
+import { ApiProperty } from '@nestjs/swagger';
+import { Transform } from 'class-transformer';
+import { IsOptional, IsString, IsNumber } from 'class-validator';
+
+export class GetAllOrderProposalProductsDto {
+    @IsOptional()
+    @IsString()
+    @ApiProperty({ required: false, default: '' })
+    search?: string = '';
+
+    @IsOptional()
+    @Transform(({ value }) => parseInt(value))
+    @IsNumber()
+    @ApiProperty({ required: false })
+    categoryId?: number;
+
+    @IsOptional()
+    @Transform(({ value }) => parseInt(value))
+    @IsNumber()
+    @ApiProperty({ required: false })
+    supplierId?: number;
+
+    @IsOptional()
+    @Transform(({ value }) => parseInt(value))
+    @IsNumber()
+    @ApiProperty({ required: false })
+    manufacturerId?: number;
+
+    @IsOptional()
+    @Transform(({ value }) => parseInt(value))
+    @IsNumber()
+    @ApiProperty({ required: false })
+    year?: number;
+
+    @IsOptional()
+    @ApiProperty({ required: false })
+    page?: number = 0;
+
+    @IsOptional()
+    @Transform(({ value }) => parseInt(value))
+    @ApiProperty({ required: false, minimum: 5, maximum: 25, default: 10 })
+    rowsPerPage?: number = 10;
+}

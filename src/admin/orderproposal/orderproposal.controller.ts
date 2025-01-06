@@ -18,11 +18,34 @@ import { AdminJwtAuthGuard } from 'src/common/guards';
 import { GetCurrentUserId } from 'src/common/decorators/get-current-user.decorator';
 import { GetCurrentUserBusinessId } from 'src/common/decorators/get-currentUserBusinessId';
 import { PaginationDto } from './dto/get-order-proposal-pagination.dto';
+import { GetAllOrderProposalProductsDto } from './dto/get-all-order-proposal-products.dto';
 
 @Controller('orderproposal')
 @ApiTags('orderproposal')
 export class OrderproposalController {
     constructor(private readonly orderproposalService: OrderproposalService) {}
+
+    @Get('/get-all-order-proposal-products')
+    @ApiBearerAuth()
+    @UseGuards(AdminJwtAuthGuard)
+    findAllOrderProposalProducts(
+        @GetCurrentUserId() userId: number,
+        @GetCurrentUserBusinessId() businessId: number,
+        @Query() getAllOrderProposalProductsDto: GetAllOrderProposalProductsDto,
+    ) {
+        //Logger.log('productquery', PaginationDto);
+        return this.orderproposalService.getAllOrderProposalProducts(
+            userId,
+            businessId,
+            getAllOrderProposalProductsDto.search,
+            getAllOrderProposalProductsDto.page,
+            getAllOrderProposalProductsDto.rowsPerPage,
+            getAllOrderProposalProductsDto.categoryId,
+            getAllOrderProposalProductsDto.supplierId,
+            getAllOrderProposalProductsDto.manufacturerId,
+            getAllOrderProposalProductsDto.year,
+        );
+    }
 
     @Post('/create-order-proposal')
     @ApiBearerAuth()

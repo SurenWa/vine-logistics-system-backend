@@ -9,7 +9,6 @@ import {
     UseGuards,
     Query,
     ParseIntPipe,
-    Logger,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
