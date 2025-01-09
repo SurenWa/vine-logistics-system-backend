@@ -1,7 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional, IsNumber } from 'class-validator';
+import { IsOptional, IsNumber, IsString } from 'class-validator';
 
 export class CreateOrderProposalDto {
+    @ApiProperty({ required: false })
+    @IsOptional()
+    @IsString()
+    username?: string;
+
     @IsNumber()
     @IsOptional()
     @ApiProperty({ required: false })

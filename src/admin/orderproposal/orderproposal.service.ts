@@ -129,7 +129,7 @@ export class OrderproposalService {
                 throw new UnauthorizedException('ACCESS DENIED');
             }
 
-            const { productId, quantity } = createOrderProposalDto;
+            const { username, productId, quantity } = createOrderProposalDto;
 
             const product = await this.prisma.products.findUnique({
                 where: {
@@ -152,7 +152,7 @@ export class OrderproposalService {
             const formattedDate = currentDate.toISOString().split('T')[0];
 
             const pdf = await this.pdfGenerate.generateOrderProposalPDF(
-                'Bestillingsforslag',
+                `Bestillingsforslag av ${username}`,
                 formattedDate,
                 `Bestillingsforslag til ${product?.name}`,
                 product?.name,

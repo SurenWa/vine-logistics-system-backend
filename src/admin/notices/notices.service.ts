@@ -28,7 +28,7 @@ export class NoticesService {
         if (user.businessId !== businessId) {
             throw new UnauthorizedException('ACCESS DENIED');
         }
-        const { date, username, message, products } = createNoticeDto;
+        const { username, message, products } = createNoticeDto;
 
         // Step 1: Search products by ID
         const productsToUpdate = await this.prisma.products.findMany({
@@ -71,9 +71,13 @@ export class NoticesService {
             },
         });
 
-        const pdf = await this.pdfGenerate.generatePDF(
+        // Generate formatted createdAt timestamp
+        const currentDate = new Date();
+        const formattedDate = currentDate.toISOString().split('T')[0];
+
+        const pdf = await this.pdfGenerate.generateStockUpdatePDF(
             `Varetelling av ${username}`,
-            createNoticeDto.date,
+            formattedDate,
             createNoticeDto.message,
             updatedProducts,
         );
@@ -81,7 +85,7 @@ export class NoticesService {
         // Step 4: Create a new notice entry
         await this.prisma.notices.create({
             data: {
-                date,
+                date: formattedDate,
                 username,
                 businessId,
                 pdfUrl: pdf,
@@ -126,7 +130,7 @@ export class NoticesService {
                     message: { contains: search },
                 },
                 orderBy: {
-                    date: 'asc',
+                    createdAt: 'desc',
                 },
                 skip: offset,
                 take: rowsPerPage,
