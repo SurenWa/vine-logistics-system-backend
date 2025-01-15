@@ -11,7 +11,7 @@ import { CreateOrderProposalDto } from './dto/create-orderproposal.dto';
 import { UpdateOrderproposalDto } from './dto/update-orderproposal.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { PdfgenerateService } from '../pdfgenerate/pdfgenerate.service';
-import { Prisma } from '@prisma/client';
+import { Prisma, ProductLogType } from '@prisma/client';
 
 function convertPrismaDecimalToNumber(decimal: string | null): number | null {
     if (!decimal) return null;
@@ -355,9 +355,22 @@ export class OrderproposalService {
                 },
             });
 
+            // Fetch the current stockBalance value
+            const product = await this.prisma.products.findUnique({
+                where: { id: orderProposal.productId },
+                select: { id: true, stockBalance: true },
+            });
+
+            if (!product) {
+                throw new NotFoundException('Product not found');
+            }
+
+            //const previousQuantity = product.stockBalance;
+
             await this.prisma.products.update({
                 where: { id: orderProposal.productId },
                 data: {
+                    previousStockBalance: product.stockBalance,
                     onTheWayInQuantity: {
                         decrement: receivedQuantity,
                     },
@@ -367,6 +380,34 @@ export class OrderproposalService {
                     reservationAvailable: {
                         increment: receivedQuantity,
                     },
+                },
+            });
+
+            await this.prisma.productLog.create({
+                data: {
+                    userId,
+                    businessId,
+                    productId: id,
+                    username: user?.name,
+                    details: `Mengdeforskjell: ${
+                        product.stockBalance +
+                        receivedQuantity -
+                        product.stockBalance
+                    }, Lagt til av: ${user?.name}`,
+                    type: ProductLogType.STOCKADDED,
+                },
+            });
+
+            await this.prisma.productQuantityUpdateLog.create({
+                data: {
+                    userId,
+                    businessId,
+                    productId: product.id,
+                    username: user?.name,
+                    previousQuantity: product.stockBalance.toString(),
+                    currentQuantity: (
+                        product.stockBalance + receivedQuantity
+                    ).toString(),
                 },
             });
 

@@ -7,7 +7,7 @@ import {
     NotFoundException,
     UnauthorizedException,
 } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import { Prisma, ProductLogType } from '@prisma/client';
 
 // import { Prisma } from '@prisma/client';
 
@@ -379,6 +379,17 @@ export class UserService {
                     stockBalance: totalQuantityAfterOrder,
                     reservationAvailable:
                         totalQuantityAfterOrder - product.reservedQuantity,
+                },
+            });
+
+            await this.prisma.productLog.create({
+                data: {
+                    userId,
+                    businessId,
+                    productId: item.productId,
+                    username: user?.username,
+                    details: `Mengde: ${item.quantity} , Kjøpt av: ${user?.username}`,
+                    type: ProductLogType.SALESREGISTERED,
                 },
             });
         }

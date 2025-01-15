@@ -8,7 +8,7 @@ import {
 import { CreateNoticeDto } from './dto/create-notice.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { PdfgenerateService } from '../pdfgenerate/pdfgenerate.service';
-import { Prisma } from '@prisma/client';
+import { Prisma, ProductLogType } from '@prisma/client';
 
 @Injectable()
 export class NoticesService {
@@ -52,6 +52,30 @@ export class NoticesService {
                     previousStockBalance: product.stockBalance,
                     stockBalance: stockCount,
                     reservationAvailable: stockCount - product.reservedQuantity,
+                },
+            });
+
+            await this.prisma.productQuantityUpdateLog.create({
+                data: {
+                    userId,
+                    businessId,
+                    productId: id,
+                    username: user?.name,
+                    previousQuantity: product.stockBalance.toString(),
+                    currentQuantity: stockCount.toString(),
+                },
+            });
+
+            await this.prisma.productLog.create({
+                data: {
+                    userId,
+                    businessId,
+                    productId: id,
+                    username: user?.name,
+                    details: `Mengdeforskjell: ${
+                        stockCount - product.stockBalance
+                    }, Lagt til av: ${user?.name}`,
+                    type: ProductLogType.STOCKADDED,
                 },
             });
 

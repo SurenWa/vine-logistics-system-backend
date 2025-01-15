@@ -9,11 +9,21 @@ import {
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { Prisma } from '@prisma/client';
+import { Prisma, ProductLogType } from '@prisma/client';
 
 function convertPrismaDecimalToNumber(decimal: string | null): number | null {
     if (!decimal) return null;
     return parseFloat(decimal);
+}
+
+function convertNumberToNorweigenFormat(number) {
+    // Round to two decimal places
+    const roundedNumber = Math.round(number * 100) / 100;
+
+    // Convert dot to comma
+    const formattedNumber = roundedNumber.toString().replace('.', ',');
+
+    return formattedNumber;
 }
 
 @Injectable()
@@ -290,12 +300,75 @@ export class ProductsService {
                 markupPercent: markupPercent,
                 retailPriceIncludingVat: retailPriceIncludingVat,
                 reservationAvailable: reservationAvailable,
-                createdBy: user.username,
+                createdBy: user.name,
             },
         });
 
         if (!updatedProduct) {
             throw new Error('Product not found');
+        }
+
+        // Conditional logging for quantity update
+        if (
+            updateProductDto.stockBalance !== undefined &&
+            updateProductDto.stockBalance !== product.stockBalance
+        ) {
+            await this.prisma.productQuantityUpdateLog.create({
+                data: {
+                    userId,
+                    businessId,
+                    productId: product.id,
+                    username: user?.name,
+                    previousQuantity: product.stockBalance.toString(),
+                    currentQuantity: updateProductDto.stockBalance.toString(),
+                },
+            });
+
+            await this.prisma.productLog.create({
+                data: {
+                    userId,
+                    businessId,
+                    productId: product.id,
+                    username: user?.name,
+                    details: `Mengdeforskjell: ${
+                        updateProductDto.stockBalance - product.stockBalance
+                    }, Lagt til av: ${user?.name}`,
+                    type: ProductLogType.STOCKADDED,
+                },
+            });
+        }
+
+        // Conditional logging for price adjustment
+        if (
+            updateProductDto.retailPriceExcludingVat !== undefined &&
+            Number(updateProductDto.retailPriceExcludingVat) !==
+                Number(product.retailPriceExcludingVat)
+        ) {
+            await this.prisma.productPriceAdjustmentLog.create({
+                data: {
+                    userId,
+                    businessId,
+                    productId: id,
+                    username: user?.name,
+                    previousPrice: product.retailPriceIncludingVat.toString(),
+                    currentPrice: retailPriceIncludingVat.toString(),
+                },
+            });
+
+            await this.prisma.productLog.create({
+                data: {
+                    userId,
+                    businessId,
+                    productId: product.id,
+                    username: user?.name,
+                    details: `Tidligere: ${convertNumberToNorweigenFormat(
+                        product.retailPriceIncludingVat,
+                    )} , Ny: ${convertNumberToNorweigenFormat(
+                        retailPriceIncludingVat,
+                    )}, Oppdatert by: ${user?.name}`,
+                    type: ProductLogType.PRICEADJUSTED,
+                },
+            });
         }
 
         // Find all related ReserveProducts
@@ -369,5 +442,254 @@ export class ProductsService {
             }
         } while (true);
         return barCode;
+    }
+
+    async singleProductSales(
+        userId: number,
+        businessId: number,
+        productId: number,
+        search: string,
+        page: number,
+        rowsPerPage: number,
+    ) {
+        try {
+            const user = await this.prisma.user.findUnique({
+                where: { id: userId },
+            });
+
+            if (user.businessId !== businessId) {
+                throw new UnauthorizedException('ACCESS DENIED');
+            }
+
+            const offset = page * rowsPerPage;
+
+            const query: Prisma.OrderProductFindManyArgs = {
+                where: {
+                    businessId,
+                    productId,
+                    username: { contains: search },
+                },
+                orderBy: {
+                    createdAt: 'desc',
+                },
+                skip: offset,
+                take: rowsPerPage,
+                select: {
+                    createdAt: true,
+                    username: true,
+                    quantity: true,
+                    totalQuantityAfterOrder: true,
+                },
+            };
+
+            const productSingleSales = await this.prisma.orderProduct.findMany({
+                ...query,
+            });
+
+            if (!productSingleSales) {
+                throw new NotFoundException('Products sales data not found');
+            }
+
+            const totalCount = await this.prisma.orderProduct.count({
+                where: query.where,
+            });
+
+            const totalPages = Math.ceil(totalCount / rowsPerPage);
+
+            return {
+                productSingleSales,
+                pagination: { page, rowsPerPage, totalPages, totalCount },
+            };
+        } catch (error) {
+            throw new HttpException(
+                'Internal Server Error',
+                HttpStatus.INTERNAL_SERVER_ERROR,
+            );
+        }
+    }
+
+    async findSingleProductStockUpdate(
+        userId: number,
+        businessId: number,
+        productId: number,
+        search: string,
+        page: number,
+        rowsPerPage: number,
+    ) {
+        try {
+            const user = await this.prisma.user.findUnique({
+                where: { id: userId },
+            });
+
+            if (user.businessId !== businessId) {
+                throw new UnauthorizedException('ACCESS DENIED');
+            }
+
+            const offset = page * rowsPerPage;
+
+            const query: Prisma.ProductQuantityUpdateLogFindManyArgs = {
+                where: {
+                    businessId,
+                    productId,
+                    username: { contains: search },
+                },
+                orderBy: {
+                    createdAt: 'desc',
+                },
+                skip: offset,
+                take: rowsPerPage,
+            };
+
+            const productStockUpdateLog =
+                await this.prisma.productQuantityUpdateLog.findMany({
+                    ...query,
+                });
+
+            if (!productStockUpdateLog) {
+                throw new NotFoundException(
+                    'Produktlageroppdateringslogg ble ikke funnet',
+                );
+            }
+
+            const totalCount = await this.prisma.productQuantityUpdateLog.count(
+                {
+                    where: query.where,
+                },
+            );
+
+            const totalPages = Math.ceil(totalCount / rowsPerPage);
+
+            return {
+                productStockUpdateLog,
+                pagination: { page, rowsPerPage, totalPages, totalCount },
+            };
+        } catch (error) {
+            throw new HttpException(
+                'Internal Server Error',
+                HttpStatus.INTERNAL_SERVER_ERROR,
+            );
+        }
+    }
+
+    async findSingleProductPriceUpdate(
+        userId: number,
+        businessId: number,
+        productId: number,
+        search: string,
+        page: number,
+        rowsPerPage: number,
+    ) {
+        try {
+            const user = await this.prisma.user.findUnique({
+                where: { id: userId },
+            });
+
+            if (user.businessId !== businessId) {
+                throw new UnauthorizedException('ACCESS DENIED');
+            }
+
+            const offset = page * rowsPerPage;
+
+            const query: Prisma.ProductPriceAdjustmentLogFindManyArgs = {
+                where: {
+                    businessId,
+                    productId,
+                    username: { contains: search },
+                },
+                orderBy: {
+                    createdAt: 'desc',
+                },
+                skip: offset,
+                take: rowsPerPage,
+            };
+
+            const productPriceUpdateLog =
+                await this.prisma.productPriceAdjustmentLog.findMany({
+                    ...query,
+                });
+
+            if (!productPriceUpdateLog) {
+                throw new NotFoundException(
+                    'Oppdateringslogg for produktpris ble ikke funnet',
+                );
+            }
+
+            const totalCount =
+                await this.prisma.productPriceAdjustmentLog.count({
+                    where: query.where,
+                });
+
+            const totalPages = Math.ceil(totalCount / rowsPerPage);
+
+            return {
+                productPriceUpdateLog,
+                pagination: { page, rowsPerPage, totalPages, totalCount },
+            };
+        } catch (error) {
+            throw new HttpException(
+                'Internal Server Error',
+                HttpStatus.INTERNAL_SERVER_ERROR,
+            );
+        }
+    }
+
+    async findSingleProductLog(
+        userId: number,
+        businessId: number,
+        productId: number,
+        search: string,
+        page: number,
+        rowsPerPage: number,
+        logType?: ProductLogType,
+    ) {
+        try {
+            const user = await this.prisma.user.findUnique({
+                where: { id: userId },
+            });
+
+            if (user.businessId !== businessId) {
+                throw new UnauthorizedException('ACCESS DENIED');
+            }
+
+            const offset = page * rowsPerPage;
+
+            const query: Prisma.ProductLogFindManyArgs = {
+                where: {
+                    businessId,
+                    productId,
+                    username: { contains: search },
+                    type: logType || undefined,
+                },
+                orderBy: {
+                    createdAt: 'desc',
+                },
+                skip: offset,
+                take: rowsPerPage,
+            };
+
+            const productLog = await this.prisma.productLog.findMany({
+                ...query,
+            });
+
+            if (!productLog) {
+                throw new NotFoundException('Produktlogg ble ikke funnet');
+            }
+
+            const totalCount = await this.prisma.productLog.count({
+                where: query.where,
+            });
+
+            const totalPages = Math.ceil(totalCount / rowsPerPage);
+
+            return {
+                productLog,
+                pagination: { page, rowsPerPage, totalPages, totalCount },
+            };
+        } catch (error) {
+            throw new HttpException(
+                'Internal Server Error',
+                HttpStatus.INTERNAL_SERVER_ERROR,
+            );
+        }
     }
 }
