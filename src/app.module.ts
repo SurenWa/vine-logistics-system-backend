@@ -19,6 +19,7 @@ import { SubusersModule } from './admin/subusers/subusers.module';
 import { UserModule } from './user/user.module';
 import { ReportsModule } from './admin/reports/reports.module';
 import { OrderproposalModule } from './admin/orderproposal/orderproposal.module';
+import { SubadminModule } from './admin/subadmin/subadmin.module';
 
 @Module({
     imports: [
@@ -44,6 +45,7 @@ import { OrderproposalModule } from './admin/orderproposal/orderproposal.module'
         UserModule,
         ReportsModule,
         OrderproposalModule,
+        SubadminModule,
     ],
     controllers: [AppController],
     providers: [AppService],
